@@ -23,7 +23,7 @@ deb http://deb.debian.org/debian stretch-backports main contrib non-free
 EOF
 
 apt-get update
-apt-get upgrade
+apt-get -yy --option=Dpkg::options::=--force-unsafe-io upgrade
 apt-get -yy --option=Dpkg::options::=--force-unsafe-io install --no-install-recommends \
 	linux-image-armmp/stretch-backports
 apt-get clean
