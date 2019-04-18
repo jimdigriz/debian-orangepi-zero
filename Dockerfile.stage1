@@ -27,7 +27,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 
 RUN git clone --depth 1 --single-branch -b ${uboot} git://git.denx.de/u-boot.git \
 	&& make -C u-boot -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- orangepi_zero_defconfig \
-	&& make -C u-boot -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- 
+	&& make -C u-boot -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- \
+	&& make -C u-boot -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- tools
 
 RUN debootstrap --variant=minbase --arch armhf --foreign --include=systemd-sysv stretch rootfs http://deb.debian.org/debian \
 	&& cp /usr/bin/qemu-arm-static rootfs/usr/bin

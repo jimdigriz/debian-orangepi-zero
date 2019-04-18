@@ -4,6 +4,6 @@
 **/.*
 **/*
 
-!boot.scr
+!boot.cmd
 !stage2.sh
 !stage3.sh

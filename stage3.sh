@@ -15,6 +15,7 @@ mkdir target
 mount /dev/loop0p1 target
 
 tar -cC rootfs . | tar -xC target
+./u-boot/tools/mkimage -C none -A arm -T script -d target/boot/boot.cmd target/boot/boot.scr
 cp u-boot/arch/arm/dts/sun8i-h2-plus-orangepi-zero.dtb target/boot
 
 umount target
