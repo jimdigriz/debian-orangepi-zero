@@ -8,6 +8,8 @@ COPY --from=opi0-stage2b / rootfs/
 
 RUN rm rootfs/usr/bin/qemu-arm-static
 
+COPY boot.scr rootfs/boot
+
 COPY stage3.sh .
 
 CMD ["/bin/sh", "/stage3.sh"]
