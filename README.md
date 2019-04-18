@@ -21,7 +21,7 @@ After a while (downloading ~500MB plus roughly 15 mins), you should be left with
 
 To use it, insert your SD card and copy the image to it using:
 
-    dd if=debian-orange-pi-zero.img bs=1M of=/dev/...
+    sudo dd if=debian-orange-pi-zero.img bs=1M of=/dev/...
 
 **N.B.** replace `/dev/...` with the path to your SD card (for example `sdc`)
 
