@@ -1,0 +1,5 @@
+.*
+!.gitignore
+!.dockerignore
+
+debian-9-orange-pi-zero.img

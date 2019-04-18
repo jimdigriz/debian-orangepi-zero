@@ -1,0 +1,13 @@
+FROM opi-stage1
+
+SHELL ["/bin/sh", "-x", "-c"]
+
+RUN rm -rf rootfs
+
+COPY --from=opi-stage2b / rootfs/
+
+RUN rm rootfs/usr/bin/qemu-arm-static
+
+COPY stage3.sh .
+
+CMD ["/bin/sh", "/stage3.sh"]

@@ -1,0 +1,33 @@
+FROM debian:9
+
+ARG uboot=v2019.04
+
+SHELL ["/bin/sh", "-x", "-c"]
+
+RUN export DEBIAN_FRONTEND=noninteractive \
+	&& apt-get update \
+	&& apt-get -yy --option=Dpkg::options::=--force-unsafe-io upgrade \
+	&& apt-get -yy --option=Dpkg::options::=--force-unsafe-io install --no-install-recommends \
+		bc \
+		bison \
+		ca-certificates \
+		debootstrap \
+		flex \
+		gcc \
+		gcc-arm-linux-gnueabihf \
+		git \
+		libc6-dev \
+		make \
+		makedev \
+		python-dev \
+		qemu-user-static \
+		swig \
+	&& apt-get clean \
+	&& find /var/lib/apt/lists -type f -delete
+
+RUN git clone --depth 1 --single-branch -b ${uboot} git://git.denx.de/u-boot.git \
+	&& make -C u-boot -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- orangepi_zero_defconfig \
+	&& make -C u-boot -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- 
+
+RUN debootstrap --variant=minbase --arch armhf --foreign --include=systemd-sysv stretch rootfs http://deb.debian.org/debian \
+	&& cp /usr/bin/qemu-arm-static rootfs/usr/bin
