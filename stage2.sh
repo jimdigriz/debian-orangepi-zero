@@ -31,9 +31,18 @@ find /var/lib/apt/lists -type f -delete
 
 passwd -d root
 
-# http://linux-sunxi.org/USB_Gadget/Serial
-echo g_serial >> /etc/initramfs-tools/modules
+echo g_serial >> /etc/modules
+systemctl enable serial-getty@ttyGS0.service
 
-update-initramfs -u -k all
+cat <<'EOF' > /etc/fstab
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system>	<mount point>	<type>	<options>		<dump>	<pass>
+LABEL=root	/		auto	errors=remount-ro	0	1
+EOF
 
 exit 0
