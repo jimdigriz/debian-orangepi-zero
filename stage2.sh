@@ -59,8 +59,6 @@ iface lo inet loopback
 iface default inet dhcp
 EOF
 
-mkdir /etc/network/interfaces.d
-
 cat <<'EOF' > /etc/network/interfaces.d/eth0
 allow-hotplug eth0
 iface eth0 inet dhcp
