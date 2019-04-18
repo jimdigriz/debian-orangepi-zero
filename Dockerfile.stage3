@@ -1,10 +1,10 @@
-FROM opi-stage1
+FROM opi0-stage1
 
 SHELL ["/bin/sh", "-x", "-c"]
 
 RUN rm -rf rootfs
 
-COPY --from=opi-stage2b / rootfs/
+COPY --from=opi0-stage2b / rootfs/
 
 RUN rm rootfs/usr/bin/qemu-arm-static
 

@@ -2,7 +2,7 @@ FROM scratch
 
 SHELL ["/bin/sh", "-x", "-c"]
 
-COPY --from=opi-stage1 rootfs/ /
+COPY --from=opi0-stage1 rootfs/ /
 
 COPY stage2.sh /debootstrap/
 
