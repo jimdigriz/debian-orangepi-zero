@@ -31,4 +31,9 @@ find /var/lib/apt/lists -type f -delete
 
 passwd -d root
 
+# http://linux-sunxi.org/USB_Gadget/Serial
+echo g_serial >> /etc/initramfs-tools/modules
+
+update-initramfs -u -k all
+
 exit 0
