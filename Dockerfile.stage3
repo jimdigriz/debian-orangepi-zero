@@ -10,7 +10,7 @@ RUN rm rootfs/usr/bin/qemu-arm-static
 
 COPY boot.cmd rootfs/boot/
 
-RUN tar c xr819 | tar xC rootfs/lib/firmware
+RUN mkdir -p rootfs/lib/firmware && tar c xr819 | tar xC rootfs/lib/firmware
 RUN cp /xradio/xradio_wlan.ko rootfs/root/
 
 COPY stage3.sh .
