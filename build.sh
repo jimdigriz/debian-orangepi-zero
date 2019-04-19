@@ -2,7 +2,9 @@
 
 set -eu
 
-docker build -t opi0-stage1 -f Dockerfile.stage1 .
+docker build -t opi0-stage1 -f Dockerfile.stage1 \
+	--build-arg xradio=https://github.com/jimdigriz/xradio.git \
+	--build-arg xradio_branch=debug-ifdefs .
 
 docker build -t opi0-stage2 -f Dockerfile.stage2 .
 
