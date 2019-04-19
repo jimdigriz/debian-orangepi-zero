@@ -10,6 +10,9 @@ RUN rm rootfs/usr/bin/qemu-arm-static
 
 COPY boot.cmd rootfs/boot/
 
+RUN cp -r /xr819 rootfs/lib/firmware/
+RUN cp /xradio/xradio_wlan.ko rootfs/root/
+
 COPY stage3.sh .
 
 CMD ["/bin/sh", "/stage3.sh"]

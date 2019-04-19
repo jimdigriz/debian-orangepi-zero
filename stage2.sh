@@ -55,13 +55,18 @@ source /etc/network/interfaces.d/*
 # The loopback network interface
 auto lo
 iface lo inet loopback
-
-iface default inet dhcp
 EOF
 
 cat <<'EOF' > /etc/network/interfaces.d/eth0
 allow-hotplug eth0
 iface eth0 inet dhcp
+EOF
+
+cat <<'EOF' > /etc/network/interfaces.d/wlan0
+auto wlan0
+iface wlan0 inet dhcp
+    wpa-ssid [SSID]
+    wpa-psk [SHAREDKEY]
 EOF
 
 exit 0

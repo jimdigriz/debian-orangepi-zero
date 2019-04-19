@@ -4,7 +4,10 @@ ARG uboot=v2019.04
 
 SHELL ["/bin/sh", "-x", "-c"]
 
+RUN printf "deb http://deb.debian.org/debian/ stretch-backports main\ndeb-src http://deb.debian.org/debian/ stretch-backports main\n" > /etc/apt/sources.list.d/debian-backports.list
+
 RUN export DEBIAN_FRONTEND=noninteractive \
+	&& dpkg --add-architecture armhf \
 	&& apt-get update \
 	&& apt-get -yy --option=Dpkg::options::=--force-unsafe-io upgrade \
 	&& apt-get -yy --option=Dpkg::options::=--force-unsafe-io install --no-install-recommends \
@@ -12,6 +15,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		bison \
 		ca-certificates \
 		debootstrap \
+		dpkg-dev \
 		flex \
 		gcc \
 		gcc-arm-linux-gnueabihf \
@@ -22,6 +26,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		python-dev \
 		qemu-user-static \
 		swig \
+		xz-utils \
+	&& apt-get source linux-image-$(wget -q -O - https://salsa.debian.org/kernel-team/linux-latest/raw/stretch-backports/debian/rules.defs | awk '/KERNELVERSION/ { print $3 }')-armmp \
 	&& apt-get clean \
 	&& find /var/lib/apt/lists -type f -delete
 
@@ -30,5 +36,15 @@ RUN git clone --depth 1 --single-branch -b ${uboot} git://git.denx.de/u-boot.git
 	&& make -C u-boot -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- \
 	&& make -C u-boot -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- tools
 
-RUN debootstrap --variant=minbase --arch armhf --foreign --include=ifupdown,iproute2,irqbalance,iw,systemd-sysv,usbutils,wpasupplicant stretch rootfs http://deb.debian.org/debian \
+RUN git clone --depth 1 --single-branch https://github.com/fifteenhex/xradio.git \
+	&& make -C linux-4.* -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- ARCH=arm sunxi_defconfig \
+	&& make -C linux-4.* -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- ARCH=arm modules_prepare \
+	&& make -C linux-4.* -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- ARCH=arm M=/xradio modules
+
+RUN mkdir xr819 && wget -P xr819 \
+	https://github.com/armbian/firmware/raw/master/xr819/boot_xr819.bin \
+	https://github.com/armbian/firmware/raw/master/xr819/fw_xr819.bin \
+	https://github.com/armbian/firmware/raw/master/xr819/sdd_xr819.bin
+
+RUN debootstrap --variant=minbase --arch armhf --foreign --include=ethtool,ifupdown,iproute2,irqbalance,iw,systemd-sysv,usbutils,wpasupplicant,wireless-tools stretch rootfs http://deb.debian.org/debian \
 	&& cp /usr/bin/qemu-arm-static rootfs/usr/bin

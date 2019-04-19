@@ -5,7 +5,8 @@ This project uses Docker (sorry), my justification is that people may not run De
 ## Related Links
 
  * [Debian 9 (Stretch) SD card image for Orange Pi Zero](https://github.com/hjc4869/debian-stretch-orange-pi-zero)
- * [cunning](https://stackoverflow.com/a/55170186)
+ * [Cunning use of docker to run second stage of `debootstrap`](https://stackoverflow.com/a/55170186)
+ * [Allwinner xradio driver](https://github.com/fifteenhex/xradio)
 
 # Pre-flight
 
