@@ -43,6 +43,6 @@ Real [serial port access is strongly recommended](http://linux-sunxi.org/Xunlong
 
  * there is no password for the `root` user, so you can log in trivially with the serial console
 
- * DHCP and autoconfiguration for IPv6 has been configured on the Ethernet socket
+ * DHCP and auto-configuration for IPv6 has been configured on the Ethernet socket
 
 This is a stock regular no-frills Debian installation, of significant note is that it does not have an SSH server and you will need to manually configured the wireless networking to match your needs.
