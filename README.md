@@ -42,7 +42,6 @@ Once complete you can pop out the SD card from your workstation and put it in yo
 Real [serial port access is strongly recommended](http://linux-sunxi.org/Xunlong_Orange_Pi_Zero#Adding_a_serial_port) as it will help with debugging and resolving problems, though if all you want is to use rather than develop the build process (ie. this project) you can though slum it with [USB serial gadget](http://linux-sunxi.org/USB_Gadget/Serial) access alone.
 
  * there is no password for the `root` user, so you can log in trivially with the serial console
-
  * DHCP and auto-configuration for IPv6 has been configured on the Ethernet socket
 
 This is a stock regular no-frills Debian installation, of significant note is that it does not have an SSH server and you will need to manually configured the wireless networking to match your needs.
