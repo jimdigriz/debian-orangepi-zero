@@ -8,6 +8,9 @@ This project uses Docker (sorry) as many users may not wish to run Debian or dro
  * test IPv6 and IPv4 auto-configuration of wifi and ethernet networking
  * test the watchdog
  * create a networking watchdog too as apparently the wifi driver is awful
+ * clean up old logs and leaked bits form the build
+ * root resize seems to trigger a reboot (which fails)
+ * need to include `fsck.ext4` in first initramfs build; fix up the `RESUME`, filesystem detection, etc in there
 
 ## Related Links
 
@@ -41,6 +44,7 @@ Once complete you can pop out the SD card from your workstation and put it in yo
 
 Real [serial port access is strongly recommended](http://linux-sunxi.org/Xunlong_Orange_Pi_Zero#Adding_a_serial_port) as it will help with debugging and resolving problems, though if all you want is to use rather than develop the build process (ie. this project) you can though slum it with [USB serial gadget](http://linux-sunxi.org/USB_Gadget/Serial) access alone.
 
+ * the root filesystem will [automatically grow to fill the SD card on first boot](https://copyninja.info/blog/grow_rootfs.html)
  * there is no password for the `root` user, so you can log in trivially with the serial console
  * DHCP and auto-configuration for IPv6 has been configured on the Ethernet socket
 

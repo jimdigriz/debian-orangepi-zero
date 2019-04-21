@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -eu
+
+RDEV=$(findmnt -l -o SOURCE -f / | sed 1d)
+DDEV=${RDEV%p*}
+
+cat <<EOF | flock $DDEV /bin/sh -eu
+echo ',+' | sfdisk -f $DDEV -N 1
+partx -u $DDEV
+EOF
+
+mount -o remount,rw $RDEV
+
+resize2fs $RDEV
+
+exit 0
