@@ -4,10 +4,6 @@ SHELL ["/bin/sh", "-x", "-c"]
 
 COPY --from=opi0-stage1 rootfs/ /
 
-COPY overlay/ /
-COPY --from=opi0-stage1 xr819 /lib/firmware/xr819/
-COPY --from=opi0-stage1 /xradio/xradio_wlan.ko /root
-
 COPY stage2.sh /debootstrap/
 
 CMD ["/bin/sh", "/debootstrap/stage2.sh"]
