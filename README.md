@@ -4,7 +4,6 @@ This project uses Docker (sorry) as many users may not wish to run Debian or dro
 
 ## TODO
 
- * wifi lights up, but I need to match the module versioning so we do not have to force load the module
  * test IPv6 and IPv4 auto-configuration of wifi and ethernet networking
  * test the watchdog
  * create a networking watchdog too as apparently the wifi driver is awful
