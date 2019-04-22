@@ -44,7 +44,9 @@ COPY overlay/ /rootfs/
 RUN git clone --depth 1 --single-branch -b ${uboot_branch} ${uboot} \
 	&& make -C u-boot -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- orangepi_zero_defconfig \
 	&& make -C u-boot -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- \
-	&& make -C u-boot -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- tools
+	&& make -C u-boot -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- tools \
+	&& cp u-boot/arch/arm/dts/sun8i-h2-plus-orangepi-zero.dtb rootfs/boot \
+	&& ./u-boot/tools/mkimage -C none -A arm -T script -d rootfs/boot/boot.cmd rootfs/boot/boot.scr
 
 RUN git clone --depth 1 --single-branch -b ${xradio_branch} ${xradio} \
 	&& export VER=$(dpkg -s linux-source | awk '/Depends/ { print $2 }' | sed -e 's/linux-source-//') \
