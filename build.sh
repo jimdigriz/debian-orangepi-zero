@@ -18,6 +18,6 @@ docker build -t opi0-stage3 -f Dockerfile.stage3 .
 ID=$(docker create --cap-add SYS_ADMIN --privileged -v /dev/:/dev opi0-stage3)
 docker start -a $ID
 docker cp $ID:debian-orange-pi-zero.img .
-docker rm $ID
+docker rm $ID >/dev/null
 
 exit 0
