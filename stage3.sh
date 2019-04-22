@@ -21,8 +21,8 @@ tar cC rootfs . | tar xC target
 
 umount target
 
-losetup -d $DEV
-
 rmdir target
+
+losetup -d $DEV
 
 exit 0
