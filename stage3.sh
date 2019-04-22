@@ -2,7 +2,9 @@
 
 set -eux
 
-dd of=debian-orange-pi-zero.img if=/dev/zero bs=1M count=0 seek=512
+SIZE=$(($(du -sm rootfs | cut -f1) * 11 / 10))
+
+dd of=debian-orange-pi-zero.img if=/dev/zero bs=1M count=0 seek=$SIZE
 printf "label: dos\n\nstart=1M, type=83\n" | sfdisk debian-orange-pi-zero.img
 dd of=debian-orange-pi-zero.img if=u-boot/u-boot-sunxi-with-spl.bin bs=1k seek=8 conv=notrunc
 
