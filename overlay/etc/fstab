@@ -5,4 +5,4 @@
 # that works even if disks are added and removed. See fstab(5).
 #
 # <file system>	<mount point>	<type>	<options>		<dump>	<pass>
-LABEL=root	/		ext4	errors=remount-ro	0	1
+LABEL=root	/		auto	errors=remount-ro	0	1

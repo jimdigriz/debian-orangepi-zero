@@ -4,12 +4,10 @@ This project uses Docker (sorry) as many users may not wish to run Debian or dro
 
 ## TODO
 
- * test IPv6 and IPv4 auto-configuration of wifi and ethernet networking
+ * need to include `fsck.ext4` in first initramfs build (`Warning: couldn't identify filesystem type for fsck hook, ignoring`)
  * test the watchdog
- * create a networking watchdog too as apparently the wifi driver is awful
- * clean up old logs and leaked bits form the build
- * root resize seems to trigger a reboot (which fails)
- * need to include `fsck.ext4` in first initramfs build; fix up the `RESUME`, filesystem detection, etc in there
+       * create a networking watchdog too as apparently the wifi driver is awful
+ * clean up old logs and anything that leaked in from the build process
 
 ## Related Links
 
@@ -48,3 +46,12 @@ Real [serial port access is strongly recommended](http://linux-sunxi.org/Xunlong
  * DHCP and auto-configuration for IPv6 has been configured on the Ethernet socket
 
 This is a stock regular no-frills Debian installation, of significant note is that it does not have an SSH server and you will need to manually configured the wireless networking to match your needs.
+
+## Wireless
+
+To configure a basic WPA-PSK network, you can use:
+
+    wpa_passphrase SSID PASSWORD > /etc/wpa_supplicant/wpa_supplicant-wlan0.conf
+    chmod 700 /etc/wpa_supplicant/wpa_supplicant-wlan0.conf
+    systemctl enable wpa_supplicant@wlan0.conf
+    systemctl start wpa_supplicant@wlan0.conf

@@ -17,6 +17,9 @@ mkdir target
 
 mount ${DEV}p1 target
 
+# docker bind mounts in resolv.conf so we have to delay fixing this
+ln -s -f -t rootfs/etc /run/systemd/resolve/resolv.conf
+
 tar cC rootfs . | tar xC target
 
 umount target

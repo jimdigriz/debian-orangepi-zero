@@ -35,11 +35,14 @@ RUN dpkg --add-architecture armhf \
 		qemu-user-static \
 		swig \
 		xz-utils \
+	&& cd /var/lib/apt/lists/partial \
 	&& apt-get download $(apt-cache depends linux-headers-armmp/stretch-backports | awk '/Depends/ { print $2 }')/stretch-backports \
+	&& mv linux-headers-*-armmp_*_armhf.deb / \
+	&& cd - \
 	&& apt-get clean \
 	&& find /var/lib/apt/lists -type f -delete
 
-RUN debootstrap --variant=minbase --arch armhf --foreign --include=ethtool,ifupdown,iproute2,irqbalance,iw,systemd-sysv,usbutils,wpasupplicant,wireless-tools stretch rootfs http://deb.debian.org/debian \
+RUN debootstrap --variant=minbase --arch armhf --foreign --include=ethtool,iproute2,irqbalance,iw,systemd-sysv,usbutils,wpasupplicant stretch rootfs http://deb.debian.org/debian \
 	&& cp /usr/bin/qemu-arm-static rootfs/usr/bin
 
 COPY overlay/ /rootfs/
@@ -55,7 +58,7 @@ RUN git clone --depth 1 --single-branch -b ${xradio_branch} ${xradio} \
 	&& export VER=$(dpkg -s linux-source | sed -n -e '/Depends/ s/.*linux-source-// p') \
 	&& tar -C /usr/src -xf /usr/src/linux-source-$VER.tar.xz \
 	&& xzcat /usr/src/linux-config-$VER/config.armhf_none_armmp.xz > /usr/src/linux-source-$VER/.config \
-	&& dpkg-deb --fsys-tarfile /linux-headers-${VER}*-armmp_${VER}*_armhf.deb | tar -xO --wildcards '*/Module.symvers' > /usr/src/linux-source-$VER/Module.symvers \
+	&& dpkg-deb --fsys-tarfile /linux-headers-*-armmp_*_armhf.deb | tar -xO --wildcards '*/Module.symvers' > /usr/src/linux-source-$VER/Module.symvers \
 	&& make -C /usr/src/linux-source-$VER -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- ARCH=arm olddefconfig \
 	&& make -C /usr/src/linux-source-$VER -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- ARCH=arm modules_prepare \
 	&& make -C /usr/src/linux-source-$VER -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- ARCH=arm M=/xradio modules \
