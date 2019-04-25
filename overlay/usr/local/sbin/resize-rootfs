@@ -10,6 +10,10 @@ echo ',+' | sfdisk --no-reread --no-tell-kernel -f $DDEV -N 1
 partx -u $DDEV
 EOF
 
+mount -o remount,rw /
+
 resize2fs $RDEV
+
+mount -o remount,ro /
 
 exit 0
