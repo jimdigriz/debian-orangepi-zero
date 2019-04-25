@@ -5,10 +5,10 @@ This project uses Docker (sorry) as many users may not wish to run Debian or dro
 ## TODO
 
  * need to include `fsck.ext4` in first initramfs build
-       * (`Warning: couldn't identify filesystem type for fsck hook, ignoring`)
-       * [looks like this, but suggested fix seems not to work](https://isolated.site/2019/02/17/update-initramfs-fails-to-include-fsck-in-initrd/)
+   * (`Warning: couldn't identify filesystem type for fsck hook, ignoring`)
+   * [looks like this, but suggested fix seems not to work](https://isolated.site/2019/02/17/update-initramfs-fails-to-include-fsck-in-initrd/)
  * test the watchdog
-       * create a networking watchdog too as apparently the wifi driver is awful
+   * create a networking watchdog too as apparently the wifi driver is awful
  * clean up old logs and anything that leaked in from the build process
 
 ## Related Links
@@ -45,7 +45,8 @@ Real [serial port access is strongly recommended](http://linux-sunxi.org/Xunlong
 
  * the root filesystem will [automatically grow to fill the SD card on first boot](https://copyninja.info/blog/grow_rootfs.html)
  * there is no password for the `root` user, so you can log in trivially with the serial console
- * DHCP and auto-configuration for IPv6 has been configured on the Ethernet socket
+ * networking is configured through [`systemd-networkd`](https://wiki.archlinux.org/index.php/Systemd-networkd)
+   * DHCP and IPv6 auto-configuration is setup for both Ethernet and Wireless (though the latter is disabled on boot)
 
 This is a stock regular no-frills Debian installation, of significant note is that it does not have an SSH server and you will need to manually configured the wireless networking to match your needs.
 
