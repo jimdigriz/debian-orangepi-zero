@@ -49,6 +49,7 @@
 
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/input/input.h>
+#include <dt-bindings/pinctrl/sun4i-a10.h>
 
 / {
 	model = "Xunlong Orange Pi Zero";
@@ -130,7 +131,11 @@
 	 * alias for it (which e.g. makes u-boot set a mac-address).
 	 */
 	xr819: sdio_wifi@1 {
+		compatible = "xradio,xr819";
 		reg = <1>;
+		interrupt-parent = <&pio>;
+		interrupts = <6 10 IRQ_TYPE_EDGE_RISING>;
+		interrupt-names = "host-wake";
 	};
 };
 
