@@ -14,4 +14,6 @@ mount -o remount,rw $RDEV
 
 resize2fs $RDEV
 
+mount -o remount,ro $RDEV
+
 exit 0
