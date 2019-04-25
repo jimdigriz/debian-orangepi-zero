@@ -4,7 +4,9 @@ This project uses Docker (sorry) as many users may not wish to run Debian or dro
 
 ## TODO
 
- * need to include `fsck.ext4` in first initramfs build (`Warning: couldn't identify filesystem type for fsck hook, ignoring`)
+ * need to include `fsck.ext4` in first initramfs build
+       * (`Warning: couldn't identify filesystem type for fsck hook, ignoring`)
+       * [looks like this, but suggested fix seems not to work](https://isolated.site/2019/02/17/update-initramfs-fails-to-include-fsck-in-initrd/)
  * test the watchdog
        * create a networking watchdog too as apparently the wifi driver is awful
  * clean up old logs and anything that leaked in from the build process
