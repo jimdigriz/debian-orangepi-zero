@@ -20,8 +20,14 @@ This project uses Docker (sorry) as many users may not wish to run Debian or dro
 # Pre-flight
 
  * [Docker](https://docs.docker.com/install/), sorry...!
- * `binfmt_misc` support on the host, and loaded (`modprobe binfmt_misc`)
- * `sudo apt-get install --no-install-recommends binfmt-support qemu-user-static`
+ * [`binfmt_misc`](https://en.wikipedia.org/wiki/Binfmt_misc) support on the host, and loaded (`modprobe binfmt_misc`)
+ * [QEMU User Mode](https://ownyourbits.com/2018/06/13/transparently-running-binaries-from-any-architecture-in-linux-with-qemu-and-binfmt_misc/)
+
+## Debian
+
+    echo 'deb [arch=amd64] https://download.docker.com/linux/debian stretch stable' > /etc/apt/sources.list.d/docker.list
+    sudo apt-get update
+    sudo apt-get -yy install --no-install-recommends binfmt-support docker-ce qemu-user-static
 
 # Build
 
