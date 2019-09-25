@@ -2,13 +2,12 @@
 
 set -eux
 
-sed -i.bak -e '/^\s*setup_proc$/ d' /debootstrap/suite-script
 /debootstrap/debootstrap --second-stage
 
 apt-get update
 apt-get -yy --option=Dpkg::options::=--force-unsafe-io upgrade
 apt-get -yy --option=Dpkg::options::=--force-unsafe-io install --no-install-recommends \
-	linux-image-armmp/stretch-backports
+	linux-image-armmp
 apt-get clean
 find /var/lib/apt/lists -type f -delete
 

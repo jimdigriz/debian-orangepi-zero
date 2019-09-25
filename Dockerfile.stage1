@@ -1,7 +1,7 @@
-FROM debian:9
+FROM debian:stable-slim
 
 ARG uboot=git://git.denx.de/u-boot.git
-ARG uboot_branch=v2019.04
+ARG uboot_branch=v2019.07
 
 ARG xradio=https://github.com/fifteenhex/xradio.git
 ARG xradio_branch=master
@@ -9,8 +9,6 @@ ARG xradio_branch=master
 SHELL ["/bin/sh", "-x", "-c"]
 
 ENV DEBIAN_FRONTEND=noninteractive
-
-RUN printf "deb http://deb.debian.org/debian/ stretch-backports main\ndeb-src http://deb.debian.org/debian/ stretch-backports main\n" > /etc/apt/sources.list.d/debian-backports.list
 
 RUN dpkg --add-architecture armhf \
 	&& apt-get update \
@@ -27,8 +25,8 @@ RUN dpkg --add-architecture armhf \
 		git \
 		libc6-dev \
 		libssl-dev \
-		linux-config-$(apt-cache depends linux-source/stretch-backports | sed -n -e '/Depends/ s/.*linux-source-// p'):armhf/stretch-backports \
-		linux-source/stretch-backports \
+		linux-config-$(apt-cache depends linux-source | sed -n -e '/Depends/ s/.*linux-source-// p'):armhf \
+		linux-source \
 		make \
 		makedev \
 		python-dev \
@@ -36,13 +34,13 @@ RUN dpkg --add-architecture armhf \
 		swig \
 		xz-utils \
 	&& cd /var/lib/apt/lists/partial \
-	&& apt-get download $(apt-cache depends linux-headers-armmp/stretch-backports | awk '/Depends/ { print $2 }')/stretch-backports \
+	&& apt-get download $(apt-cache depends linux-headers-armmp | awk '/Depends/ { print $2 }') \
 	&& mv linux-headers-*-armmp_*_armhf.deb / \
 	&& cd - \
 	&& apt-get clean \
 	&& find /var/lib/apt/lists -type f -delete
 
-RUN debootstrap --variant=minbase --arch armhf --foreign --include=ethtool,iproute2,irqbalance,iw,systemd-sysv,usbutils,wpasupplicant stretch rootfs http://deb.debian.org/debian \
+RUN debootstrap --variant=minbase --arch armhf --foreign --include=ethtool,iproute2,irqbalance,iw,systemd-sysv,usbutils,wpasupplicant buster rootfs http://deb.debian.org/debian \
 	&& cp /usr/bin/qemu-arm-static rootfs/usr/bin
 
 COPY overlay/ /rootfs/

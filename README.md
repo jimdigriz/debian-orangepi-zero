@@ -1,4 +1,4 @@
-Build a [Debian 'stretch' 9](https://www.debian.org/) image for the [Orange Pi Zero](http://www.orangepi.org/orangepizero/).
+Build a [Debian 'buster' 10](https://www.debian.org/) image for the [Orange Pi Zero](http://www.orangepi.org/orangepizero/).
 
 This project uses Docker (sorry) as many users may not wish to run Debian or drop an entire cross compiling development environment onto their workstation.  The target audiences are "just give me a stock Debian image" and those wishing to know "how do I build my own images from scratch?"
 
@@ -25,7 +25,7 @@ This project uses Docker (sorry) as many users may not wish to run Debian or dro
 
 ## Debian
 
-    echo 'deb [arch=amd64] https://download.docker.com/linux/debian stretch stable' > /etc/apt/sources.list.d/docker.list
+    echo 'deb [arch=amd64] https://download.docker.com/linux/debian buster stable' > /etc/apt/sources.list.d/docker.list
     sudo apt-get update
     sudo apt-get -yy install --no-install-recommends binfmt-support docker-ce qemu-user-static
 
