@@ -5,7 +5,6 @@ SHELL ["/bin/sh", "-x", "-c"]
 RUN rm -rf rootfs
 COPY --from=opi0-stage2b / rootfs/
 
-RUN rm rootfs/proc && mkdir rootfs/proc
 RUN rm rootfs/usr/bin/qemu-arm-static
 
 COPY stage3.sh .

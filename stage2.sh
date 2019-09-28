@@ -2,29 +2,21 @@
 
 set -eux
 
-/debootstrap/debootstrap --second-stage
-
-apt-get update
-apt-get -yy --option=Dpkg::options::=--force-unsafe-io upgrade
-apt-get -yy --option=Dpkg::options::=--force-unsafe-io install --no-install-recommends \
-	linux-image-armmp
-apt-get clean
-find /var/lib/apt/lists -type f -delete
-
 passwd -d root
 
-systemctl enable systemd-networkd.service
-systemctl enable systemd-resolved.service
+systemctl enable resize-rootfs
+
+systemctl enable systemd-networkd
+systemctl enable systemd-resolved
+
+chmod 0600 /etc/wpa_supplicant/wpa_supplicant-wlan0.conf
+systemctl enable wpa_supplicant@wlan0
 
 echo g_serial >> /etc/modules
 printf "# USB Serial Gadget\nttyGS0\n" >> /etc/securetty
-systemctl enable serial-getty@ttyGS0.service
+systemctl enable serial-getty@ttyGS0
 
-VER=$(apt-cache depends linux-image-armmp | sed -n -e '/Depends/ s/.*linux-image-// p')
-mkdir -p /lib/modules/$VER/misc
-mv /tmp/xradio_wlan.ko /lib/modules/$VER/misc
-depmod $VER
-
-systemctl enable resize-rootfs.service
+# xradio_wlan plumbing
+depmod $(apt-cache depends linux-image-armmp | sed -n -e '/Depends/ s/.*linux-image-// p')
 
 exit 0

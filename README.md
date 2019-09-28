@@ -51,6 +51,7 @@ Real [serial port access is strongly recommended](http://linux-sunxi.org/Xunlong
 
  * the root filesystem will [automatically grow to fill the SD card on first boot](https://copyninja.info/blog/grow_rootfs.html)
  * there is no password for the `root` user, so you can log in trivially with the serial console
+ * though `systemd-timesyncd` should automatically handle this for you, if you are too quick typing `apt-get update` you may find you need to fix up the current date time with `date -s 2019-09-25`
  * networking is configured through [`systemd-networkd`](https://wiki.archlinux.org/index.php/Systemd-networkd)
    * DHCP and IPv6 auto-configuration is setup for both Ethernet and Wireless (though the latter is disabled on boot)
 
@@ -58,9 +59,15 @@ This is a stock regular no-frills Debian installation, of significant note is th
 
 ## Wireless
 
-To configure a basic WPA-PSK network, you can use:
+To configure a basic WPA-PSK network, you run `wpa_cli` and use the following (note that `add_network` may return another number to `0` and you will need to adjust the lines that follow accordingly):
 
-    wpa_passphrase SSID PASSWORD > /etc/wpa_supplicant/wpa_supplicant-wlan0.conf
-    chmod 700 /etc/wpa_supplicant/wpa_supplicant-wlan0.conf
-    systemctl enable wpa_supplicant@wlan0.conf
-    systemctl start wpa_supplicant@wlan0.conf
+    > add_network
+    0
+    > set_network 0 ssid "your-ssid"
+    OK
+    > set_network 0 psk "your-psk"
+    OK
+    > enable_network 0
+    OK
+    > save_config
+    OK
