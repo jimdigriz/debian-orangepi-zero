@@ -41,7 +41,7 @@ RUN dpkg --add-architecture armhf \
 	&& find /var/lib/apt/lists -type f -delete
 
 RUN debootstrap --variant=minbase --arch armhf --foreign \
-		--include=dbus,ethtool,iproute2,irqbalance,iw,systemd-sysv,usbutils,wpasupplicant \
+		--include=dbus,ethtool,iproute2,irqbalance,iw,netbase,systemd-sysv,usbutils,wpasupplicant \
 		buster rootfs http://deb.debian.org/debian \
 	&& cp /usr/bin/qemu-arm-static rootfs/usr/bin
 
