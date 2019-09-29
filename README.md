@@ -63,11 +63,12 @@ To configure a basic WPA-PSK network, you run `wpa_cli` and use the following (n
 
     > add_network
     0
-    > set_network 0 ssid "your-ssid"
+    > set_network 0 ssid "<ssid>"
     OK
-    > set_network 0 psk "your-psk"
+    > set_network 0 psk "<psk>"
     OK
     > enable_network 0
     OK
     > save_config
     OK
+    > quit
