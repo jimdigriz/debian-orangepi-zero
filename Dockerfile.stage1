@@ -82,5 +82,6 @@ RUN git clone --depth 1 --single-branch -b ${uboot_branch} ${uboot} \
 
 COPY /overlay/ /rootfs/
 
-RUN cpp -nostdinc -I u-boot/include -I u-boot/arch/arm/dts -undef -x assembler-with-cpp rootfs/boot/sun8i-h2-plus-orangepi-zero.dts | ./u-boot/scripts/dtc/dtc -O dtb -o rootfs/boot/sun8i-h2-plus-orangepi-zero.dtb \
+RUN cpp -nostdinc -I u-boot/include -I u-boot/arch/arm/dts -undef -x assembler-with-cpp rootfs/boot/sun8i-h2-plus-orangepi-zero.dts \
+		| ./u-boot/scripts/dtc/dtc -O dtb -o rootfs/boot/sun8i-h2-plus-orangepi-zero.dtb \
 	&& ./u-boot/tools/mkimage -C none -A arm -T script -d rootfs/boot/boot.cmd rootfs/boot/boot.scr
