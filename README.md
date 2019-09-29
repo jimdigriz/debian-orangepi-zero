@@ -53,7 +53,7 @@ Real [serial port access is strongly recommended](http://linux-sunxi.org/Xunlong
  * there is no password for the `root` user, so you can log in trivially with the serial console
  * though `systemd-timesyncd` should automatically handle this for you, if you are too quick typing `apt-get update` you may find you need to fix up the current date time with `date -s 2019-09-25`
  * networking is configured through [`systemd-networkd`](https://wiki.archlinux.org/index.php/Systemd-networkd)
-   * DHCP and IPv6 auto-configuration is setup for both Ethernet and Wireless (though the latter is disabled on boot)
+   * DHCP and IPv6 auto-configuration is setup for both Ethernet and Wireless
 
 This is a stock regular no-frills Debian installation, of significant note is that it does not have an SSH server and you will need to manually configured the wireless networking to match your needs.
 
