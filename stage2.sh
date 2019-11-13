@@ -16,6 +16,8 @@ echo g_serial >> /etc/modules
 printf "# USB Serial Gadget\nttyGS0\n" >> /etc/securetty
 systemctl enable serial-getty@ttyGS0
 
+sed -ie 's/^#\(watchdog-device\)/\1/' /etc/watchdog.conf
+
 # xradio_wlan plumbing
 depmod $(apt-cache depends linux-image-armmp | sed -n -e '/Depends/ s/.*linux-image-// p')
 
