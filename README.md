@@ -26,6 +26,8 @@ This project uses Docker (sorry) as many users may not wish to run Debian or dro
     sudo apt-get update
     sudo apt-get -yy install --no-install-recommends binfmt-support docker-ce qemu-user-static
 
+**N.B.** we install `binfmt-support` and `qemu-user-static` on the host so the container is automatically setup to run ARM binaries transparently
+
 # Build
 
     sh build.sh
