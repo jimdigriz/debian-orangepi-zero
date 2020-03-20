@@ -20,9 +20,10 @@ This project uses Docker (sorry) as many users may not wish to run Debian or dro
  * [`binfmt_misc`](https://en.wikipedia.org/wiki/Binfmt_misc) support on the host, and loaded (`modprobe binfmt_misc`)
  * [QEMU User Mode](https://ownyourbits.com/2018/06/13/transparently-running-binaries-from-any-architecture-in-linux-with-qemu-and-binfmt_misc/)
 
-## Debian
+## Debian/Ubuntu
 
-    echo 'deb [arch=amd64] https://download.docker.com/linux/debian buster stable' > /etc/apt/sources.list.d/docker.list
+    . /etc/os-release
+    echo "deb [arch=amd64] https://download.docker.com/linux/$ID $VERSION_CODENAME stable" > /etc/apt/sources.list.d/docker.list
     sudo apt-get update
     sudo apt-get -yy install --no-install-recommends binfmt-support docker-ce qemu-user-static
 
@@ -71,3 +72,9 @@ To configure a basic WPA-PSK network, you run `wpa_cli` and use the following (n
     > save_config
     OK
     > quit
+
+## Upgrading the Kernel
+
+Be careful with `apt-get install linux-image-armmp` as the wireless driver `xradio_wlan` will need rebuilding and installing *before* you reboot.
+
+One way to do this is just rebuild the project (after clearing out the Docker images), copy the `xradio_wlan.ko` driver into `/lib/modules/<VERSION>/extra/` and run `depmod -a` on the system.
