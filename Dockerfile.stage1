@@ -29,7 +29,7 @@ RUN dpkg --add-architecture armhf \
 		linux-source \
 		make \
 		makedev \
-		python-dev \
+		python3-dev \
 		qemu-user-static \
 		swig \
 		xz-utils \
