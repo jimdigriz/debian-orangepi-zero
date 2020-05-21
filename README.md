@@ -77,4 +77,8 @@ To configure a basic WPA-PSK network, you run `wpa_cli` and use the following (n
 
 Be careful with `apt-get install linux-image-armmp` as the wireless driver `xradio_wlan` will need rebuilding and installing *before* you reboot.
 
-One way to do this is just rebuild the project (after clearing out the Docker images), copy the `xradio_wlan.ko` driver into `/lib/modules/<VERSION>/extra/` and run `depmod -a` on the system.
+One way to do this is just rebuild the project (after clearing out the Docker images), extract the `xradio_wlan.ko` driver with:
+
+    docker run --rm opi0-stage3 cat xradio/xradio_wlan.ko > xradio_wlan.ko
+
+Now copy it to your Orange Pi Zero's `/lib/modules/<VERSION>/extra/` and run `depmod -a`.
