@@ -1,7 +1,7 @@
 FROM debian:stable-slim
 
 ARG uboot=git://git.denx.de/u-boot.git
-ARG uboot_branch=v2020.01
+ARG uboot_branch=v2020.04
 
 ARG xradio=https://github.com/fifteenhex/xradio.git
 ARG xradio_branch=master
