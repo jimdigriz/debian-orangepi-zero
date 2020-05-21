@@ -73,7 +73,9 @@ To configure a basic WPA-PSK network, you run `wpa_cli` and use the following (n
     OK
     > quit
 
-## Upgrading the Kernel
+## Upgrading
+
+### Kernel
 
 Be careful with `apt-get install linux-image-armmp` as the wireless driver `xradio_wlan` will need rebuilding and installing *before* you reboot.
 
@@ -82,3 +84,15 @@ One way to do this is just rebuild the project (after clearing out the Docker im
     docker run --rm opi0-stage3 cat xradio/xradio_wlan.ko > xradio_wlan.ko
 
 Now copy it to your Orange Pi Zero's `/lib/modules/<VERSION>/extra/` and run `depmod -a`.
+
+### u-boot
+
+Rebuild the project (after clearing out the Docker images) and extract the u-boot bits with:
+
+    docker run --rm opi0-stage1 cat u-boot/u-boot-sunxi-with-spl.bin > u-boot-sunxi-with-spl.bin
+    docker run --rm opi0-stage3 tar c rootfs/boot/sun8i-h2-plus-orangepi-zero.dts rootfs/boot/sun8i-h2-plus-orangepi-zero.dtb rootfs/boot/boot.cmd rootfs/boot/boot.scr > u-boot.tar
+
+Copy `u-boot-sunxi-with-spl.bin` and `u-boot.tar` to your Orange Pi Zero's and run from there:
+
+    dd of=/dev/mmcblk0 if=u-boot-sunxi-with-spl.bin bs=1k seek=8 conv=notrunc
+    tar -C / --strip-components=1 -xf u-boot.tar
