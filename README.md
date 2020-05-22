@@ -39,6 +39,8 @@ This project uses Docker (sorry) as many users may not wish to run Debian or dro
 
 **N.B.** `docker-ce` install instructions come from [Docker's website](https://docs.docker.com/engine/install/debian/)
 
+You will need to log out and back in on the terminal to gain your new group membership.
+
 # Build
 
     sh build.sh
