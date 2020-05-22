@@ -23,7 +23,8 @@ This project uses Docker (sorry) as many users may not wish to run Debian or dro
 ## Debian/Ubuntu
 
     . /etc/os-release
-    echo "deb [arch=amd64] https://download.docker.com/linux/$ID $VERSION_CODENAME stable" > /etc/apt/sources.list.d/docker.list
+    sudo curl -L -o /etc/apt/trusted.gpg.d/docker.gpg.asc https://download.docker.com/linux/$ID/gpg
+    echo "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/docker.gpg.asc] https://download.docker.com/linux/$ID $VERSION_CODENAME stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
     sudo apt-get update
     sudo apt-get -yy install --no-install-recommends binfmt-support docker-ce qemu-user-static
 
