@@ -95,7 +95,7 @@ One way to do this is just rebuild the project (after clearing out the Docker im
 
     docker run --rm opi0-stage3 cat xradio/xradio_wlan.ko > xradio_wlan.ko
 
-Now copy it to your Orange Pi Zero's `/lib/modules/<VERSION>/extra/` and run `depmod -a <VERSION>` (for example where `<VERSION>` is `4.19.0-16-armmp`).
+Now copy it to your Orange Pi Zero's `/lib/modules/<VERSION>/extra/` and run `depmod -a <VERSION>` (for example where `<VERSION>` is `5.10.0-9-amd64`).
 
 ### u-boot
 
