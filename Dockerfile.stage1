@@ -65,7 +65,8 @@ RUN git clone --depth 1 --single-branch -b ${xradio_branch} ${xradio} \
 	&& dpkg-deb --fsys-tarfile /linux-headers-*-armmp_*_armhf.deb | tar -xO --wildcards '*/Module.symvers' > /usr/src/linux-source-$SVER/Module.symvers \
 	&& make -C /usr/src/linux-source-$SVER -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- ARCH=arm olddefconfig \
 	&& make -C /usr/src/linux-source-$SVER -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- ARCH=arm modules_prepare \
-        && sed -i -e '/Standalone/,/^$/ s/# //' /xradio/Makefile \
+	&& sed -i -e '/Standalone/,/^$/ s/# //' /xradio/Makefile \
+	&& sed -i -e '/consecutive interrupts/ s~^~//~' /xradio/bh.c \
 	&& make -C /usr/src/linux-source-$SVER -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- ARCH=arm M=/xradio modules \
 	&& mkdir rootfs/lib/modules/$IVER/extra \
 	&& cp /xradio/xradio_wlan.ko rootfs/lib/modules/$IVER/extra
