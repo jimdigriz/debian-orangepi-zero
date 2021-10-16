@@ -12,7 +12,7 @@ RUN dpkg --add-architecture armhf \
 		bison \
 		ca-certificates \
 		debootstrap \
-		dpkg-dev \
+		fdisk \
 		flex \
 		gcc \
 		gcc-arm-linux-gnueabihf \
@@ -24,8 +24,9 @@ RUN dpkg --add-architecture armhf \
 		make \
 		makedev \
 		python3-dev \
-		qemu-user-static \
+		python3-pkg-resources \
 		swig \
+		qemu-user-static \
 		xz-utils \
 	&& cd /var/lib/apt/lists/partial \
 	&& apt-get download $(apt-cache depends linux-headers-armmp | awk '/Depends/ { print $2 }') \
@@ -35,7 +36,7 @@ RUN dpkg --add-architecture armhf \
 	&& find /var/lib/apt/lists -type f -delete
 
 RUN debootstrap --variant=minbase --arch armhf --foreign \
-		--include=dbus,ethtool,iproute2,irqbalance,iw,netbase,systemd-sysv,usbutils,watchdog,wpasupplicant \
+		--include=dbus,ethtool,iproute2,irqbalance,iw,netbase,systemd,usbutils,watchdog,wpasupplicant \
 		$(. /etc/os-release && echo $VERSION_CODENAME) rootfs http://deb.debian.org/debian \
 	&& cp /usr/bin/qemu-arm-static rootfs/usr/bin
 
@@ -46,7 +47,7 @@ RUN mkdir -p /rootfs/etc/dpkg/dpkg.cfg.d \
 
 RUN chroot /rootfs /bin/sh -c ' \
 	. /etc/os-release \
-		&& printf "deb http://deb.debian.org/debian $(echo $VERSION_CODENAME) main\ndeb http://security.debian.org/debian-security $(echo $VERSION_CODENAME)/updates main\ndeb http://deb.debian.org/debian/ $(echo $VERSION_CODENAME)-updates main" > /etc/apt/sources.list \
+		&& printf "deb http://deb.debian.org/debian $(echo $VERSION_CODENAME) main\ndeb http://security.debian.org $(echo $VERSION_CODENAME)-security main\ndeb http://deb.debian.org/debian $(echo $VERSION_CODENAME)-updates main" > /etc/apt/sources.list \
 		&& apt-get update \
 		&& apt-get -yy --option=Dpkg::options::=--force-unsafe-io upgrade \
 		&& apt-get -yy --option=Dpkg::options::=--force-unsafe-io install --no-install-recommends \
@@ -54,16 +55,17 @@ RUN chroot /rootfs /bin/sh -c ' \
 		&& apt-get clean \
 		&& find /var/lib/apt/lists -type f -delete'
 
-ARG xradio=https://github.com/fifteenhex/xradio.git
-ARG xradio_branch=master
+ARG xradio=https://github.com/dbeinder/xradio.git
+ARG xradio_branch=karabek_rebase_minstrel
 RUN git clone --depth 1 --single-branch -b ${xradio_branch} ${xradio} \
-	&& export SVER=$(dpkg -s linux-source | sed -n -e '/Depends/ s/.*linux-source-// p') \
+	&& export SVER=$(apt-cache depends linux-source | sed -n -e '/Depends/ s/.*linux-source-// p') \
 	&& export IVER=$(chroot /rootfs apt-cache depends linux-image-armmp | sed -n -e '/Depends/ s/.*linux-image-// p') \
 	&& tar -C /usr/src -xf /usr/src/linux-source-$SVER.tar.xz \
 	&& xzcat /usr/src/linux-config-$SVER/config.armhf_none_armmp.xz > /usr/src/linux-source-$SVER/.config \
 	&& dpkg-deb --fsys-tarfile /linux-headers-*-armmp_*_armhf.deb | tar -xO --wildcards '*/Module.symvers' > /usr/src/linux-source-$SVER/Module.symvers \
 	&& make -C /usr/src/linux-source-$SVER -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- ARCH=arm olddefconfig \
 	&& make -C /usr/src/linux-source-$SVER -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- ARCH=arm modules_prepare \
+        && sed -i -e '/Standalone/,/^$/ s/# //' /xradio/Makefile \
 	&& make -C /usr/src/linux-source-$SVER -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- ARCH=arm M=/xradio modules \
 	&& mkdir rootfs/lib/modules/$IVER/extra \
 	&& cp /xradio/xradio_wlan.ko rootfs/lib/modules/$IVER/extra
@@ -74,7 +76,7 @@ RUN mkdir -p rootfs/lib/firmware/xr819 && wget -P rootfs/lib/firmware/xr819 \
 	https://github.com/armbian/firmware/raw/master/xr819/sdd_xr819.bin
 
 ARG uboot=git://git.denx.de/u-boot.git
-ARG uboot_branch=v2020.04
+ARG uboot_branch=v2021.10
 RUN git clone --depth 1 --single-branch -b ${uboot_branch} ${uboot} \
 	&& make -C u-boot -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- orangepi_zero_defconfig \
 	&& make -C u-boot -j $(getconf _NPROCESSORS_ONLN) CROSS_COMPILE=arm-linux-gnueabihf- \

@@ -1,4 +1,4 @@
-Build a [Debian 'buster' 10](https://www.debian.org/) image for the [Orange Pi Zero](http://www.orangepi.org/orangepizero/).
+Build a [Debian 'bullseye' 11](https://www.debian.org/) image for the [Orange Pi Zero](http://www.orangepi.org/orangepizero/).
 
 This project uses Docker (sorry) as many users may not wish to run Debian or drop an entire cross compiling development environment onto their workstation.  The target audiences are "just give me a stock Debian image" and those wishing to know "how do I build my own images from scratch?"
 
@@ -12,7 +12,7 @@ This project uses Docker (sorry) as many users may not wish to run Debian or dro
 
  * [Debian 9 (Stretch) SD card image for Orange Pi Zero](https://github.com/hjc4869/debian-stretch-orange-pi-zero)
  * [Cunning use of docker to run second stage of `debootstrap`](https://stackoverflow.com/a/55170186)
- * [Allwinner xradio driver](https://github.com/fifteenhex/xradio)
+ * [Allwinner xradio driver](https://github.com/dbeinder/xradio.git)
 
 # Pre-flight
 
