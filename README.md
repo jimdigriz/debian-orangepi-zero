@@ -53,7 +53,7 @@ To use it, insert your SD card and copy the image to it using:
 
 **N.B.** replace `/dev/...` with the path to your SD card, for example `/dev/sdc`.
 
-This will take about 30 seconds, depending on how fast your SD card is.
+This will take about 30 to 300 seconds, depending on how fast your SD card is.
 
 Once complete you can pop out the SD card from your workstation and put it in your Orange Pi Zero.
 
