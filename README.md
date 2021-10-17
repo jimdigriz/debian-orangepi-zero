@@ -91,7 +91,7 @@ To configure a basic WPA-PSK network, you run `wpa_cli` and use the following (n
 
 It is strongly recommended you edit `/etc/watchdog.conf` to set the following:
 
- * **[`ping`](https://www.crawford-space.co.uk/old_psc/watchdog/watchdog-configure.html#Network_ping):** set this to the IP of your default route (or another system on the LAN)
+ * **[`ping`](https://www.crawford-space.co.uk/old_psc/watchdog/watchdog-configure.html#Network_ping):** set this to the IP of your default route (do not use something on the Internet!)
  * **[`interface`](https://www.crawford-space.co.uk/old_psc/watchdog/watchdog-configure.html#Network_Interface) (optional):** set to `wlan0`
 
 This should mean if the networking dies on the device, it will automatically reboot its-self which may workaround any bugs in the wireless driver.
