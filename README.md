@@ -91,6 +91,7 @@ To configure a basic WPA-PSK network, you run `wpa_cli` and use the following (n
 
 It is strongly recommended you edit `/etc/watchdog.conf` to set the following:
 
+ * **[`watchdog-timeout`]:** set this to `16` to neuter the error "`cannot set timeout 60 (errno = 22 = 'Invalid argument')`"
  * **[`ping`](https://www.crawford-space.co.uk/old_psc/watchdog/watchdog-configure.html#Network_ping):** set this to the IP of your default route (do not use something on the Internet!)
  * **[`interface`](https://www.crawford-space.co.uk/old_psc/watchdog/watchdog-configure.html#Network_Interface) (optional):** set to `wlan0`
 
