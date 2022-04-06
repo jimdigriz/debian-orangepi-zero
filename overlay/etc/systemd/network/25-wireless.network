@@ -1,8 +1,8 @@
 [Match]
-Name=wlan0
+Name=wl*
 
 [Network]
-DHCP=ipv4
+DHCP=yes
 IPv6PrivacyExtensions=yes
 
 [DHCP]

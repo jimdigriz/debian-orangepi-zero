@@ -1,8 +1,8 @@
 [Match]
-Name=eth0
+Name=en* eth*
 
 [Network]
-DHCP=ipv4
+DHCP=yes
 IPv6PrivacyExtensions=yes
 
 [DHCP]
